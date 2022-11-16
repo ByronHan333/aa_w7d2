@@ -1,11 +1,9 @@
 class SessionsController < ApplicationController
+  before_action :require_logged_in, only: [:destroy]
+  before_action :require_logged_out, only: [:new]
 
   def new
-    if logged_in?
-      require_logged_out
-    else
-      render :new
-    end
+    render :new
   end
 
   def create
@@ -23,11 +21,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    if logged_in?
-      logout
-      redirect_to new_session_url
-    else
-      require_logged_in
-    end
+    logout
+    redirect_to new_session_url
   end
 end
