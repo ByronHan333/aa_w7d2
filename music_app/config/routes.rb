@@ -2,5 +2,10 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  # root "articles#index"
+  root "users#index"
+
+  resource :session, only: [:new, :create, :destroy]
+  resources :users, only: [:create, :new, :show]
+
+  resources :bands
 end

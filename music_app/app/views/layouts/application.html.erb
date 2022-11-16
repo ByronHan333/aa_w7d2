@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>MusicApp</title>
+    <title class="music_app">Music App</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -10,6 +10,31 @@
   </head>
 
   <body>
+    <% if logged_in? %>
+      <form action="<%= session_url%>" method="POST">
+        <input type="hidden" name="_method" value="DELETE" >
+        <%= auth_token %>
+        <input type="submit" value="Log Out">
+        <br>
+      </form>
+    <% else %>
+      <form action="<%= new_user_url%>" method="GET">
+        <%= auth_token %>
+        <input type="submit" value="Sign Up">
+      </form>
+      <br>
+      <form action="<%= new_session_url%>" method="GET">
+        <%= auth_token %>
+        <input type="submit" value="Sign In">
+      </form>
+      <br>
+    <% end %>
+
     <%= yield %>
+      <% if flash[:messages] %>
+      <% flash[:messages].each do |m| %>
+        <%= m %>
+      <% end %>
+    <% end %>
   </body>
 </html>
